@@ -74,6 +74,8 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "testURL": "http://localhost/",
+    "testEnvironment": "node"
   }
 }
