@@ -3,6 +3,7 @@ import { ApolloProvider } from 'react-apollo'
 import * as ReactDOM from 'react-dom'
 
 import { client } from './apollo'
+import './index.css'
 import registerServiceWorker from './registerServiceWorker'
 import { Routes } from './routes'
 
