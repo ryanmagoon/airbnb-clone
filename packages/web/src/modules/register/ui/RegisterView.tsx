@@ -6,7 +6,7 @@ const FormItem = Form.Item
 export default class RegisterView extends React.PureComponent {
   render() {
     return (
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', flex: 1 }}>
         <div style={{ margin: 'auto', width: 400 }}>
           <FormItem>
             <Input
