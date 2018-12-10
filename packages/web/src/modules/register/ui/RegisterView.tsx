@@ -1,24 +1,45 @@
 import { Button, Form, Icon, Input } from 'antd'
+import { FormikErrors, FormikProps, withFormik } from 'formik'
 import * as React from 'react'
 
 const FormItem = Form.Item
 
-export default class RegisterView extends React.PureComponent {
+interface FormValues {
+  email: string
+  password: string
+}
+
+interface Props {
+  submit: (values: FormValues) => Promise<FormikErrors<FormValues> | null>
+}
+
+export default class C extends React.PureComponent<
+  FormikProps<FormValues> & Props
+> {
   render() {
+    const { handleBlur, handleChange, handleSubmit, values } = this.props
     return (
-      <div style={{ display: 'flex', flex: 1 }}>
+      <form style={{ display: 'flex' }} onSubmit={handleSubmit}>
         <div style={{ margin: 'auto', width: 400 }}>
           <FormItem>
             <Input
+              name="email"
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="Email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </FormItem>
           <FormItem>
             <Input
+              name="password"
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="Password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </FormItem>
           <FormItem>
@@ -39,7 +60,17 @@ export default class RegisterView extends React.PureComponent {
             Or <a href="">login now!</a>
           </FormItem>
         </div>
-      </div>
+      </form>
     )
   }
 }
+
+export const RegisterView = withFormik<Props, FormValues>({
+  handleSubmit: async (values, { props, setErrors, setSubmitting }) => {
+    const errors = await props.submit(values)
+    if (errors) {
+      setErrors(errors)
+    }
+  },
+  mapPropsToValues: () => ({ email: '', password: '' })
+})(C)
